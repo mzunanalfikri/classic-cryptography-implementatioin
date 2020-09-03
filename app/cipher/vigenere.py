@@ -53,12 +53,13 @@ class Vigenere(object):
             raw_char_list = [chr(i) for i in range(256)]
         # Scramble matrix row based on self.matrix_mode
         if self.matrix_mode == self.MatrixMode.MATRIX_MODE_BASIC:
-            self.matrix = [(raw_char_list[i:] + raw_char_list[:i])
-                           for i in range(self.char_size.value)]
+            rows = [dict(zip(raw_char_list, raw_char_list[i:] + raw_char_list[:i]))
+                    for i in range(self.char_size.value)]
         else:  # self.MatrixMode.MATRIX_MODE_FULL
             random.seed(self.seed)
-            self.matrix = [random.sample(raw_char_list, self.char_size.value)
-                           for i in range(self.char_size.value)]
+            rows = [dict(zip(raw_char_list, random.sample(raw_char_list, self.char_size.value)))
+                    for i in range(self.char_size.value)]
+        self.matrix = dict(zip(raw_char_list, rows))
 
     def encrypt(self, pt):
         # Filter char if not extended vigenere
@@ -71,13 +72,14 @@ class Vigenere(object):
             key = (self.key + pt)[:len(pt)]
         # Encrypt
         ct = ''
-        if self.char_size == self.CharSize.CHAR_SIZE_BASIC:
-            for cp, ck in zip(pt, key):
-                ct += self.matrix[ord(ck) - ord('A')][ord(cp) - ord('A')]
-        else:  # self.CharSize.CHAR_SIZE_EXTENDED
-            for cp, ck in zip(pt, key):
-                ct += self.matrix[ord(ck)][ord(cp)]
+        for cp, ck in zip(pt, key):
+            ct += self.matrix[ck][cp]
         return ct
+
+    def __decrypt_helper(self, ck, cc):
+        for k, v in self.matrix[ck].items():
+            if v == cc: return k
+        return None
 
     def decrypt(self, ct):
         # Filter char if not extended vigenere
@@ -91,20 +93,15 @@ class Vigenere(object):
         # Decrypt
         pt = ''
         counter = 0
-        if self.char_size == self.CharSize.CHAR_SIZE_BASIC:
-            while counter < len(ct):
-                cc, ck = ct[counter], key[counter]
-                pt += chr(self.matrix[ord(ck) - ord('A')].index(cc) + ord('A'))
-                counter += 1
-                # Update key if key_mode == KEY_MODE_AUTO
-                if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
-                    key += pt[-1]
-        else:  # self.CharSize.CHAR_SIZE_EXTENDED
-            while counter < len(ct):
-                cc, ck = ct[counter], key[counter]
-                pt += chr(self.matrix[ord(ck)].index(cc))
-                counter += 1
-                # Update key if key_mode == KEY_MODE_AUTO
-                if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
-                    key += pt[-1]
+        while counter < len(ct):
+            cc, ck = ct[counter], key[counter]
+            temp = self.__decrypt_helper(ck, cc)
+            if temp:
+                pt += temp
+            else:
+                raise Exception('Cannot map ciphertext to plaintext')
+            counter += 1
+            # Update key if key_mode == KEY_MODE_AUTO
+            if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
+                key += pt[-1]
         return pt
