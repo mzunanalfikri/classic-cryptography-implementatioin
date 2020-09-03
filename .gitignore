@@ -1,6 +1,6 @@
 # virtual env
-\venv
-activate.bat
+/venv
+/activate.bat
 
 # pycache folder
 __pycache__
