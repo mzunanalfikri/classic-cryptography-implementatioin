@@ -1,6 +1,4 @@
-import math
 import string
-
 
 class Playfair:
 
