@@ -3,9 +3,10 @@ from sympy import Matrix
 
 class Hill:
     def __init__(self, matrixKey):
-        # check determinan first
-        
         self.key = np.mod(np.array(matrixKey), 26)
+        # check determinan first
+        if (np.linalg.det(self.key) == 0):
+            raise Exception("Matrix key invalid")
         self.inversKey = np.array(Matrix(self.key).inv_mod(26).tolist())
 
     def _generate_trigram(self, text):
@@ -43,7 +44,8 @@ class Hill:
             return (temp[:-1])
 
 if __name__ == "__main__":
-    mat = [[17,17,5],[21,18,21],[2,2,19]]
+    # mat = [[17,17,5],[21,18,21],[2,2,19]]
+    # mat = [[0,0,0],[21,18,21],[2,2,19]]
     obj = Hill(mat)
     print(obj.encrypt("paym oremo ne --++ yo"))
     print(obj.decrypt(obj.encrypt("paymoremoneyo")))
