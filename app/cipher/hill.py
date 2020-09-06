@@ -44,7 +44,7 @@ class Hill:
             return (temp[:-1])
 
 if __name__ == "__main__":
-    # mat = [[17,17,5],[21,18,21],[2,2,19]]
+    mat = [[17,17,5],[21,18,21],[2,2,19]]
     # mat = [[0,0,0],[21,18,21],[2,2,19]]
     obj = Hill(mat)
     print(obj.encrypt("paym oremo ne --++ yo"))
