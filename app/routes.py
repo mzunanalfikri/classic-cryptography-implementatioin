@@ -1,13 +1,29 @@
 from flask import request, render_template
 
 from app import app
-from app.cipher import Vigenere
-from app.forms import VigenereForm
+from app.cipher import Playfair, Vigenere
+from app.forms import PlayfairForm, VigenereForm
 
 
 @app.route('/', methods=['GET'])
 def home():
     return 'Hello World'
+
+
+@app.route('/playfair', methods=['GET', 'POST'])
+def playfair():
+    form = PlayfairForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            cipher = Playfair(form.key.data)
+            output = None
+            if form.encrypt.data:
+                output = cipher.encrypt(form.input.data)
+            elif form.decrypt.data:
+                output = cipher.decrypt(form.input.data)
+        return render_template('playfair.html', form=form, output=output)
+    else:
+        return render_template('playfair.html', form=form)
 
 
 @app.route('/vigenere', methods=['GET', 'POST'])
