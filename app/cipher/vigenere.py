@@ -105,3 +105,15 @@ class Vigenere(object):
             if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
                 key += pt[-1]
         return pt
+
+
+if __name__ == '__main__':
+    cipher = Vigenere('TEST.*9A', key_mode=Vigenere.KeyMode.KEY_MODE_AUTO, matrix_mode=Vigenere.MatrixMode.MATRIX_MODE_FULL,
+                      char_size=Vigenere.CharSize.CHAR_SIZE_EXTENDED)
+    inp = 'ABCDEFGHI*(@)*#EWdlfalkdfj'
+    print(inp)
+    ct = cipher.encrypt(inp)
+    print(ct)
+    pt = cipher.decrypt(ct)
+    print(pt)
+    assert inp == pt
