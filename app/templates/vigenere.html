@@ -2,16 +2,21 @@
 
 {% block title %}Vigenere Cipher{% endblock %}
 {% block body %}
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-  {% for field in form if field.widget.input_type != "hidden" %}
-  <p>
-    {{ field.label }}<br>
-    {{ field }}
-    {% for error in field.errors %}
-    <span style="color: red">[{{ error }}]</span>
+<div class="input">
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != "hidden" %}
+    <p>
+      {{ field.label }}<br>
+      {{ field }}
+      {% for error in field.errors %}
+      <span style="color: red">[{{ error }}]</span>
+      {% endfor %}
+    </p>
     {% endfor %}
-  </p>
-  {% endfor %}
-</form>
+  </form>
+</div>
+<div class="output">
+  <p>{{ output }}</p>
+</div>
 {% endblock %}

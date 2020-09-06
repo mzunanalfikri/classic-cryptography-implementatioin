@@ -15,7 +15,7 @@ class VigenereForm(FlaskForm):
         ('key_basic', 'Basic Key'),
         ('key_auto', 'Auto Key (Auto-Key Vigenere)'),
     ])
-    matrix_size = RadioField('Matrix Size', choices=[
+    char_size = RadioField('Matrix Size', choices=[
         ('size_26', '26x26'),
         ('size_256', '256x256 (Extended Vigenere)'),
     ])
