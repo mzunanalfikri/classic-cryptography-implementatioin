@@ -13,7 +13,6 @@ def home():
 @app.route('/vigenere', methods=['GET', 'POST'])
 def vigenere():
     form = VigenereForm()
-    output = None
     if request.method == 'POST':
         if form.validate_on_submit():
             input = form.input.data
@@ -27,6 +26,7 @@ def vigenere():
                          else Vigenere.CharSize.CHAR_SIZE_BASIC)
             # Encryption process
             cipher = Vigenere(key, seed='1337', key_mode=key_mode, matrix_mode=matrix_mode, char_size=char_size)
+            output = None
             if form.encrypt.data:
                 output = cipher.encrypt(input)
             elif form.decrypt.data:
