@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, RadioField, SubmitField
 from wtforms.validators import DataRequired
+from wtforms.widgets import TextArea
 
 
 class VigenereForm(FlaskForm):
-    input = StringField('Input Text', validators=[DataRequired()])
+    input = StringField('Input Text', widget=TextArea(), validators=[DataRequired()])
     key = StringField('Key', validators=[DataRequired()])
     matrix_mode = RadioField('Matrix Mode', choices=[
         ('matrix_basic', 'Shift (Basic Vigenere)'),

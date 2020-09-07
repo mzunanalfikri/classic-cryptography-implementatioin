@@ -2,12 +2,16 @@
 
 {% block title %}Vigenere Cipher{% endblock %}
 {% block body %}
+<h1>Vigenere Cipher (Including the Variants)</h1>
+<a href="/">Home</a>
 <div class="input">
   <form action="" method="post">
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != "hidden" %}
     <p>
+      {% if field.widget.input_type != "submit" %}
       {{ field.label }}<br>
+      {% endif %}
       {{ field }}
       {% for error in field.errors %}
       <span style="color: red">[{{ error }}]</span>
@@ -17,6 +21,7 @@
   </form>
 </div>
 <div class="output">
-  <p>{{ output }}</p>
+  <label for="output">Output</label><br>
+  <textarea id="output" readonly>{{ output }}</textarea>
 </div>
 {% endblock %}

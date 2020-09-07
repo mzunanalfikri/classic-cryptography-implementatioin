@@ -7,14 +7,14 @@ from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm
 
 @app.route('/', methods=['GET'])
 def home():
-    return 'Hello World'
+    return render_template('index.html')
 
 
 @app.route('/playfair', methods=['GET', 'POST'])
 def playfair():
     form = PlayfairForm()
     if request.method == 'POST':
-        output = None
+        output = ""
         if form.validate_on_submit():
             cipher = Playfair(form.key.data)
             if form.encrypt.data:
@@ -30,7 +30,7 @@ def playfair():
 def super_enkripsi():
     form = SuperEnkripsiForm()
     if request.method == 'POST':
-        output = None
+        output = ""
         if form.validate_on_submit():
             cipher = SuperEnkripsi(form.key.data)
             if form.encrypt.data:
@@ -46,14 +46,13 @@ def super_enkripsi():
 def vigenere():
     form = VigenereForm()
     if request.method == 'POST':
-        output = None
+        output = ""
         if form.validate_on_submit():
             input = form.input.data
             key = form.key.data
             matrix_mode = (Vigenere.MatrixMode.MATRIX_MODE_FULL if form.matrix_mode.data == 'matrix_full'
                            else Vigenere.MatrixMode.MATRIX_MODE_BASIC)
             seed = form.seed.data or '1337'
-            print(seed)
             key_mode = (Vigenere.KeyMode.KEY_MODE_AUTO if form.key_mode.data == 'key_auto'
                         else Vigenere.KeyMode.KEY_MODE_BASIC)
             char_size = (Vigenere.CharSize.CHAR_SIZE_EXTENDED if form.char_size.data == 'size_256'
