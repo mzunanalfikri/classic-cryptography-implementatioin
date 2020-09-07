@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Super Enkripsi Cipher{% endblock %}
+{% block body %}
+<div class="input">
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != "hidden" %}
+    <p>
+      {{ field.label }}<br>
+      {{ field }}
+      {% for error in field.errors %}
+      <span style="color: red">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    {% endfor %}
+  </form>
+</div>
+<div class="output">
+  <p>{{ output }}</p>
+</div>
+{% endblock %}
