@@ -12,6 +12,18 @@ h1, h2 {
   color: #444444;
 }
 
+div.contents {
+  display: flex;
+  justify-content: center;
+}
+
+div.contents ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+  line-height: 1.75em;
+}
+
 div.input, div.output {
   background-color: #f6f6f6;
   border: 1px solid #000;
