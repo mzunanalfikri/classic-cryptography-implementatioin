@@ -1,4 +1,4 @@
-import vigenere 
+from . import vigenere 
 class SuperEnkripsi:
 
     def __init__(self, key):
@@ -30,7 +30,7 @@ class SuperEnkripsi:
 
         result = self.vigenereCipher.decrypt("".join(matrix).replace("_", ""))
         return(result)
-        
+
 
 if __name__ == "__main__":
     obj = SuperEnkripsi("hehe")

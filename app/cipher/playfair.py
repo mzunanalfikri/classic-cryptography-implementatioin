@@ -14,11 +14,11 @@ class Playfair:
         for _ in self.key:
             if ((_ not in matrix) and (_ != "J")) :
                 matrix.append(_)
-        
+
         for _ in ASCII_EXCEPT_J:
             if _ not in matrix:
-                matrix.append(_)     
-        
+                matrix.append(_)
+
         matrix_map = {}
         for i in range(len(matrix)):
             matrix_map[matrix[i]] = (i//5, i%5)
@@ -39,7 +39,7 @@ class Playfair:
         #insert X if len string is odd
         if (len(array_pt) % 2 == 1):
             array_pt.append("X")
-        
+
         bigram = []
         for i in range(0, len(array_pt), 2):
             bigram.append([array_pt[i], array_pt[i+1]])
@@ -48,7 +48,6 @@ class Playfair:
 
     def encrypt(self, plainTeks):
         bigram = self._generate_bigram(plainTeks)
-        print(bigram)
         result = []
         for el in bigram:
             p1 = self.asciiToIndexMap[el[0]]
@@ -63,11 +62,11 @@ class Playfair:
                 result.append(self.indexToAsciiMap[(p1[0],p2[1])])
                 result.append(self.indexToAsciiMap[(p2[0],p1[1])])
         return("".join(result))
-    
+
     def decrypt(self, cipherTeks):
         if (len(cipherTeks) % 2 == 1):
             raise Exception("Cipher text invalid.")
-        
+
         result = []
         bigram = []
         for i in range(0, len(cipherTeks), 2):
@@ -91,4 +90,3 @@ class Playfair:
 if __name__ == "__main__":
     obj = Playfair("JALAN GANESHA SEPULUH")
     obj.decrypt(obj.encrypt("temui ibu nanti malam"))
-    
