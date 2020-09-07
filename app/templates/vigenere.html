@@ -1,23 +1,31 @@
 {% extends "base.html" %}
 
 {% block title %}Vigenere Cipher{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/vigenere.css') }}">
+{% endblock %}
 {% block body %}
 <h1>Vigenere Cipher (Including the Variants)</h1>
 <a href="/">Home</a>
 <div class="input">
   <form action="" method="post">
-    {{ form.hidden_tag() }}
-    {% for field in form if field.widget.input_type != "hidden" %}
-    <p>
-      {% if field.widget.input_type != "submit" %}
-      {{ field.label }}<br>
-      {% endif %}
-      {{ field }}
-      {% for error in field.errors %}
-      <span style="color: red">[{{ error }}]</span>
+    <div class="field-container">
+      {{ form.hidden_tag() }}
+      {% for field in form if field.widget.input_type not in ["hidden", "submit"] %}
+      <div style="padding: 10px 0px">
+        {{ field.label }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </div>
       {% endfor %}
-    </p>
-    {% endfor %}
+    </div>
+    <div class="submit-btn-container" style="padding: 10px 0px">
+      {% for field in form if field.widget.input_type == "submit" %}
+      {{ field }}
+      {% endfor %}
+    </div>
   </form>
 </div>
 <div class="output">

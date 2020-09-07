@@ -6,18 +6,23 @@
 <a href="/">Home</a>
 <div class="input">
   <form action="" method="post">
-    {{ form.hidden_tag() }}
-    {% for field in form if field.widget.input_type != "hidden" %}
-    <p>
-      {% if field.widget.input_type != "submit" %}
-      {{ field.label }}<br>
-      {% endif %}
-      {{ field }}
-      {% for error in field.errors %}
-      <span style="color: red">[{{ error }}]</span>
+    <div class="field-container">
+      {{ form.hidden_tag() }}
+      {% for field in form if field.widget.input_type not in ["hidden", "submit"] %}
+      <p>
+        {{ field.label }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
       {% endfor %}
-    </p>
-    {% endfor %}
+    </div>
+    <div class="submit-btn-container">
+      {% for field in form if field.widget.input_type == "submit" %}
+      {{ field }}
+      {% endfor %}
+    </div>
   </form>
 </div>
 <div class="output">
