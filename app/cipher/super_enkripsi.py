@@ -11,12 +11,11 @@ class SuperEnkripsi:
 
     def encrypt(self, plainText):
         plainText2 = self.vigenereCipher.encrypt(plainText)
-        print(plainText2)
         plainText2 = ''.join(filter(str.isalpha, plainText2.upper())) #filter alphanumeric only
         #padding
         plainText2 = plainText2 + ("_"*((self.transKey - (len(plainText2) % self.transKey))%self.transKey) )
         #make matrix
-        matrix = ["" for i in range(len(plainText2)//self.transKey)]
+        matrix = ["" for i in range(self.transKey)]
         for i in range(len(plainText2)):
             j = i % self.transKey
             matrix[j] = matrix[j] + plainText2[i]
@@ -34,7 +33,7 @@ class SuperEnkripsi:
         
 
 if __name__ == "__main__":
-    obj = SuperEnkripsi("asdf asdf")
-    teks = obj.encrypt("MUHAMMAD ZUNAN ALFIKRI")
+    obj = SuperEnkripsi("hehe")
+    teks = obj.encrypt("a")
     print(teks)
     print(obj.decrypt(teks))
