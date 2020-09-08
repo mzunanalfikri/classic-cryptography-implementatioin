@@ -60,6 +60,11 @@ class Vigenere(object):
             rows = [dict(zip(raw_char_list, random.sample(raw_char_list, self.char_size.value)))
                     for i in range(self.char_size.value)]
         self.matrix = dict(zip(raw_char_list, rows))
+        # Generate decryption matrix (by reversing key-value in inner dict) to speed up decryption process
+        # It is working because the char pt-ct mapping is one-to-one
+        self.dec_matrix = {}
+        for k, v in self.matrix.items():
+            self.dec_matrix[k] = dict(zip(v.values(), v.keys()))
 
     def encrypt(self, pt):
         # Filter char if not extended vigenere
@@ -75,11 +80,6 @@ class Vigenere(object):
         for cp, ck in zip(pt, key):
             ct += self.matrix[ck][cp]
         return ct
-
-    def __decrypt_helper(self, ck, cc):
-        for k, v in self.matrix[ck].items():
-            if v == cc: return k
-        raise Exception('Cannot map ciphertext to plaintext')
 
     def decrypt(self, ct):
         # Filter char if not extended vigenere
@@ -97,14 +97,14 @@ class Vigenere(object):
         if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
             while counter < len_ct:
                 cc, ck = ct[counter], key[counter]
-                temp = self.__decrypt_helper(ck, cc)
+                temp = self.dec_matrix[ck][cc]
                 pt += temp
                 key += temp
                 counter += 1
         else:
             while counter < len_ct:
                 cc, ck = ct[counter], key[counter]
-                temp = self.__decrypt_helper(ck, cc)
+                temp = self.dec_matrix[ck][cc]
                 pt += temp
                 counter += 1
         # Return
