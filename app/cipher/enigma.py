@@ -9,6 +9,7 @@ class Enigma:
     #   / ROTOR_I <- ROTOR_II <- ROTOR_III <- INPUT
     # REFLECTOR
     #   \ ROTOR_I -> ROTOR_II -> ROTOR_III -> OUTPUT
+    # P.S.: plugboard not implemented for simplicity
     CHARSET = string.ascii_uppercase
     ROTOR_I = 'EKMFLGDQVZNTOWYHXUSPAIBRCJ'  # using rotor I
     ROTOR_II = 'AJDKSIRUXBLHWTMCQGZNPYFVOE'  # using rotor II
