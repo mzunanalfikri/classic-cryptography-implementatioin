@@ -20,7 +20,7 @@ class Affine:
         result = []
         for alphabet in cipherText:
             result.append(chr(self.modInverse26(self.m)*(ord(alphabet)%65 - self.b) % 26 + 65))
-        print("".join(result))
+        return("".join(result))
 
     def modInverse26(self, a) : 
         m = 26

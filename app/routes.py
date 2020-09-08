@@ -1,14 +1,33 @@
 from flask import request, render_template
 
 from app import app
-from app.cipher import Playfair, SuperEnkripsi, Vigenere
-from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm
+from app.cipher import Playfair, SuperEnkripsi, Vigenere, Affine
+from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm, AffineForm
 
 
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
 
+@app.route('/affine', methods=['GET', 'POST'])
+def affine():
+    form = AffineForm()
+    if request.method == 'POST':
+        output = ""
+        not_prime = False
+        if form.validate_on_submit():
+            try:
+                cipher = Affine(form.m.data,form.b.data)
+                if form.encrypt.data:
+                    output = cipher.encrypt(form.input.data)
+                elif form.decrypt.data:
+                    output = cipher.decrypt(form.input.data)
+            except :
+                not_prime = True
+                return render_template('affine.html', form=form, not_prime = not_prime)
+        return render_template('affine.html', form=form, output = output)
+    else: 
+        return render_template('affine.html', form=form)
 
 @app.route('/playfair', methods=['GET', 'POST'])
 def playfair():
