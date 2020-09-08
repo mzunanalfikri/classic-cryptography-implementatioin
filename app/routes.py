@@ -19,10 +19,17 @@ def affine():
         if form.validate_on_submit():
             try:
                 cipher = Affine(form.m.data,form.b.data)
+                # input process
+                pt = ""
+                if form.input_text.data:
+                    pt = form.input_text.data
+                elif form.input_file.has_file():
+                    pt = ''.join(map(chr, form.input_file.data.read()))
+                # encryption process
                 if form.encrypt.data:
-                    output = cipher.encrypt(form.input.data)
+                    output = cipher.encrypt(pt)
                 elif form.decrypt.data:
-                    output = cipher.decrypt(form.input.data)
+                    output = cipher.decrypt(pt)
             except :
                 not_prime = True
                 return render_template('affine.html', form=form, not_prime = not_prime)
@@ -41,10 +48,17 @@ def hill():
         if form.validate_on_submit():
             try:
                 cipher = Hill(form.generateMatrix())
+                # input process
+                pt = ""
+                if form.input_text.data:
+                    pt = form.input_text.data
+                elif form.input_file.has_file():
+                    pt = ''.join(map(chr, form.input_file.data.read()))
+                # encryption process
                 if form.encrypt.data:
-                    output = cipher.encrypt(form.input.data)
+                    output = cipher.encrypt(pt)
                 elif form.decrypt.data:
-                    output = cipher.decrypt(form.input.data)
+                    output = cipher.decrypt(pt)
             except :
                 isMatrixInvalid = True
                 return render_template('hill.html', form=form, isMatrixInvalid = isMatrixInvalid)
@@ -61,10 +75,17 @@ def playfair():
         output = ""
         if form.validate_on_submit():
             cipher = Playfair(form.key.data)
+            # input process
+            pt = ""
+            if form.input_text.data:
+                pt = form.input_text.data
+            elif form.input_file.has_file():
+                pt = ''.join(map(chr, form.input_file.data.read()))
+            # encryption process
             if form.encrypt.data:
-                output = cipher.encrypt(form.input.data)
+                output = cipher.encrypt(pt)
             elif form.decrypt.data:
-                output = cipher.decrypt(form.input.data)
+                output = cipher.decrypt(pt)
             if form.output_as_file.data:
                 return send_byte_as_file(bytes(map(ord, output)), outfile_name='playfair.txt')
         return render_template('playfair.html', form=form, output=output)
@@ -79,10 +100,17 @@ def super_enkripsi():
         output = ""
         if form.validate_on_submit():
             cipher = SuperEnkripsi(form.key.data)
+            # input process
+            pt = ""
+            if form.input_text.data:
+                pt = form.input_text.data
+            elif form.input_file.has_file():
+                pt = ''.join(map(chr, form.input_file.data.read()))
+            # encryption process
             if form.encrypt.data:
-                output = cipher.encrypt(form.input.data)
+                output = cipher.encrypt(pt)
             elif form.decrypt.data:
-                output = cipher.decrypt(form.input.data)
+                output = cipher.decrypt(pt)
             if form.output_as_file.data:
                 return send_byte_as_file(bytes(map(ord, output)), outfile_name='super-enkripsi.txt')
         return render_template('super-enkripsi.html', form=form, output=output)
