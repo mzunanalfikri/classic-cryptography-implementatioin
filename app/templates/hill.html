@@ -6,7 +6,7 @@
 <a href="/">Home</a>
 
 <div class="input">
-  <form action="" method="post">
+  <form action="" method="post" enctype="multipart/form-data">
     <div class="field-container">
       {{ form.hidden_tag() }}
       {% for field in form if field.widget.input_type not in ["hidden", "submit", "string"] %}
