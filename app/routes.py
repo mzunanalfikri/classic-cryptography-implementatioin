@@ -2,8 +2,8 @@ import io
 from flask import request, render_template, send_file
 
 from app import app
-from app.cipher import Playfair, SuperEnkripsi, Vigenere, Affine
-from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm, AffineForm
+from app.cipher import Playfair, SuperEnkripsi, Vigenere, Affine, Hill
+from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm, AffineForm, HillForm
 
 
 @app.route('/', methods=['GET'])
@@ -29,6 +29,26 @@ def affine():
         return render_template('affine.html', form=form, output = output)
     else: 
         return render_template('affine.html', form=form)
+
+@app.route('/hill', methods=['GET', 'POST'])
+def hill():
+    form = HillForm()
+    if request.method == 'POST':
+        output = ""
+        isMatrixInvalid = False
+        if form.validate_on_submit():
+            try:
+                cipher = Hill(form.generateMatrix())
+                if form.encrypt.data:
+                    output = cipher.encrypt(form.input.data)
+                elif form.decrypt.data:
+                    output = cipher.decrypt(form.input.data)
+            except :
+                isMatrixInvalid = True
+                return render_template('hill.html', form=form, isMatrixInvalid = isMatrixInvalid)
+        return render_template('hill.html', form=form, output = output)
+    else: 
+        return render_template('hill.html', form=form)
 
 @app.route('/playfair', methods=['GET', 'POST'])
 def playfair():
