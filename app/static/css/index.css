@@ -32,7 +32,7 @@ div.input, div.output {
   padding: 10px 25px;
 }
 
-#input, #output {
+#input, #input_text, #output {
   width: 100%;
   min-height: 100px;
 }

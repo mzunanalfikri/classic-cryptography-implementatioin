@@ -48,7 +48,12 @@ def vigenere():
     if request.method == 'POST':
         output = ""
         if form.validate_on_submit():
-            input = form.input.data
+            # Input processing
+            input = ""
+            if form.input_text.data:
+                input = form.input_text.data
+            elif form.input_file.has_file():
+                input = ''.join(map(chr, form.input_file.data.read()))
             key = form.key.data
             matrix_mode = (Vigenere.MatrixMode.MATRIX_MODE_FULL if form.matrix_mode.data == 'matrix_full'
                            else Vigenere.MatrixMode.MATRIX_MODE_BASIC)
