@@ -27,7 +27,7 @@ def affine():
                 not_prime = True
                 return render_template('affine.html', form=form, not_prime = not_prime)
         return render_template('affine.html', form=form, output = output)
-    else: 
+    else:
         return render_template('affine.html', form=form)
 
 @app.route('/hill', methods=['GET', 'POST'])
@@ -47,7 +47,7 @@ def hill():
                 isMatrixInvalid = True
                 return render_template('hill.html', form=form, isMatrixInvalid = isMatrixInvalid)
         return render_template('hill.html', form=form, output = output)
-    else: 
+    else:
         return render_template('hill.html', form=form)
 
 @app.route('/playfair', methods=['GET', 'POST'])
@@ -89,11 +89,11 @@ def vigenere():
         output = ""
         if form.validate_on_submit():
             # Input processing
-            input = ""
+            pt = ""
             if form.input_text.data:
-                input = form.input_text.data
+                pt = form.input_text.data
             elif form.input_file.has_file():
-                input = ''.join(map(chr, form.input_file.data.read()))
+                pt = ''.join(map(chr, form.input_file.data.read()))
             key = form.key.data
             matrix_mode = (Vigenere.MatrixMode.MATRIX_MODE_FULL if form.matrix_mode.data == 'matrix_full'
                            else Vigenere.MatrixMode.MATRIX_MODE_BASIC)
@@ -105,18 +105,18 @@ def vigenere():
             # Encryption process
             cipher = Vigenere(key, seed=seed, key_mode=key_mode, matrix_mode=matrix_mode, char_size=char_size)
             if form.encrypt.data:
-                output = cipher.encrypt(input)
+                ct = cipher.encrypt(pt)
             elif form.decrypt.data:
-                output = cipher.decrypt(input)
+                ct = cipher.decrypt(pt)
             # Return
             if form.output_as_file.data:
-                return send_byte_as_file(bytes(map(ord, output)))
-        return render_template('vigenere.html', form=form, output=output)
+                return send_byte_as_file(bytes(map(ord, ct)), outfile_name='vigenere.out')
+        return render_template('vigenere.html', form=form, output=ct)
     else:
         return render_template('vigenere.html', form=form)
 
 
-def send_byte_as_file(bytes, outfile_name='data.out'):
-    return send_file(io.BytesIO(bytes), as_attachment=True,
+def send_byte_as_file(data_bytes, outfile_name='data.out'):
+    return send_file(io.BytesIO(data_bytes), as_attachment=True,
                      attachment_filename=outfile_name,
                      mimetype='application/octet-stream')
