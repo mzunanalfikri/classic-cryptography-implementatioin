@@ -79,7 +79,7 @@ class Vigenere(object):
     def __decrypt_helper(self, ck, cc):
         for k, v in self.matrix[ck].items():
             if v == cc: return k
-        return None
+        raise Exception('Cannot map ciphertext to plaintext')
 
     def decrypt(self, ct):
         # Filter char if not extended vigenere
@@ -93,17 +93,21 @@ class Vigenere(object):
         # Decrypt
         pt = ''
         counter = 0
-        while counter < len(ct):
-            cc, ck = ct[counter], key[counter]
-            temp = self.__decrypt_helper(ck, cc)
-            if temp:
+        len_ct = len(ct)
+        if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
+            while counter < len_ct:
+                cc, ck = ct[counter], key[counter]
+                temp = self.__decrypt_helper(ck, cc)
                 pt += temp
-            else:
-                raise Exception('Cannot map ciphertext to plaintext')
-            counter += 1
-            # Update key if key_mode == KEY_MODE_AUTO
-            if self.key_mode == self.KeyMode.KEY_MODE_AUTO:
-                key += pt[-1]
+                key += temp
+                counter += 1
+        else:
+            while counter < len_ct:
+                cc, ck = ct[counter], key[counter]
+                temp = self.__decrypt_helper(ck, cc)
+                pt += temp
+                counter += 1
+        # Return
         return pt
 
 
