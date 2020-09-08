@@ -6,6 +6,7 @@ class Hill:
         self.key = np.mod(np.array(matrixKey), 26)
         # check determinan first
         if (np.linalg.det(self.key) == 0):
+            print(np.linalg.det(self.key))
             raise Exception("Matrix key invalid")
         self.inversKey = np.array(Matrix(self.key).inv_mod(26).tolist())
 
