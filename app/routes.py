@@ -26,6 +26,8 @@ def affine():
             except :
                 not_prime = True
                 return render_template('affine.html', form=form, not_prime = not_prime)
+            if form.output_as_file.data:
+                return send_byte_as_file(bytes(map(ord, output)), outfile_name='vigenere.txt')
         return render_template('affine.html', form=form, output = output)
     else:
         return render_template('affine.html', form=form)
@@ -46,6 +48,8 @@ def hill():
             except :
                 isMatrixInvalid = True
                 return render_template('hill.html', form=form, isMatrixInvalid = isMatrixInvalid)
+            if form.output_as_file.data:
+                return send_byte_as_file(bytes(map(ord, output)), outfile_name='hill.txt')
         return render_template('hill.html', form=form, output = output)
     else:
         return render_template('hill.html', form=form)
@@ -61,6 +65,8 @@ def playfair():
                 output = cipher.encrypt(form.input.data)
             elif form.decrypt.data:
                 output = cipher.decrypt(form.input.data)
+            if form.output_as_file.data:
+                return send_byte_as_file(bytes(map(ord, output)), outfile_name='playfair.txt')
         return render_template('playfair.html', form=form, output=output)
     else:
         return render_template('playfair.html', form=form)
@@ -77,6 +83,8 @@ def super_enkripsi():
                 output = cipher.encrypt(form.input.data)
             elif form.decrypt.data:
                 output = cipher.decrypt(form.input.data)
+            if form.output_as_file.data:
+                return send_byte_as_file(bytes(map(ord, output)), outfile_name='super-enkripsi.txt')
         return render_template('super-enkripsi.html', form=form, output=output)
     else:
         return render_template('super-enkripsi.html', form=form)
@@ -110,7 +118,7 @@ def vigenere():
                 ct = cipher.decrypt(pt)
             # Return
             if form.output_as_file.data:
-                return send_byte_as_file(bytes(map(ord, ct)), outfile_name='vigenere.out')
+                return send_byte_as_file(bytes(map(ord, ct)), outfile_name='vigenere.txt')
         return render_template('vigenere.html', form=form, output=ct)
     else:
         return render_template('vigenere.html', form=form)

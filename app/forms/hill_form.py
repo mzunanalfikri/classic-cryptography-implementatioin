@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField
+from wtforms import StringField, SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired
 from wtforms.widgets import TextArea
 
 class HillForm(FlaskForm):
     input = StringField('Input Text', widget=TextArea(), validators=[DataRequired()])
     mat = StringField('Matrix Key', widget=TextArea(), validators=[DataRequired()])
+    output_as_file = BooleanField('Output as File')
     encrypt = SubmitField('Encrypt')
     decrypt = SubmitField('Decrypt')
 
