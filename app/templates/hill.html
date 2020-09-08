@@ -19,8 +19,8 @@
       </p>
       {% endfor %}
     </div>
-    {% if not_prime %}
-      <p style="color: red;">M Key must be relatively prime by 26.</p>
+    {% if isMatrixInvalid %}
+      <p style="color: red;">Invalid Matrix Key.</p>
     {% endif %}
     <div class="submit-btn-container">
       {% for field in form if field.widget.input_type == "submit" %}

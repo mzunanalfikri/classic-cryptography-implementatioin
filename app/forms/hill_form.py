@@ -10,5 +10,11 @@ class HillForm(FlaskForm):
     decrypt = SubmitField('Decrypt')
 
     def generateMatrix(self):
-        print(self.mat.data)
-        return [[1,3,4],[4,5,6],[7,8,9]]
+        mat = (self.mat.data.split("\r\n"))
+        count = 0
+        for i in range(len(mat)):
+            mat[i] = mat[i].split(" ")
+            for j in range(len(mat[i])):
+                mat[i][j] = int(mat[i][j])
+                count = count + 1
+        return mat
