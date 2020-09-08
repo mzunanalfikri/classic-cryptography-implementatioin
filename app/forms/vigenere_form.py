@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, RadioField, SubmitField
+from wtforms import StringField, RadioField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from wtforms.widgets import TextArea
 
@@ -12,16 +12,17 @@ class VigenereForm(FlaskForm):
     matrix_mode = RadioField('Matrix Mode', choices=[
         ('matrix_basic', 'Shift (Basic Vigenere)'),
         ('matrix_full', 'Shuffle (Full Vigenere)'),
-    ])
+    ], default='matrix_basic')
     seed = StringField('Random Matrix Seed (Only used in Full Vigenere. Keep it blank to use server default value (seed=1337).)')
     key_mode = RadioField('Key Mode', choices=[
         ('key_basic', 'Basic Key'),
         ('key_auto', 'Auto Key (Auto-Key Vigenere)'),
-    ])
+    ], default='key_basic')
     char_size = RadioField('Char Size', choices=[
         ('size_26', '26x26'),
         ('size_256', '256x256 (Extended Vigenere)'),
-    ])
+    ], default='size_26')
+    output_as_file = BooleanField('Output as File')
     encrypt = SubmitField('Encrypt')
     decrypt = SubmitField('Decrypt')
 

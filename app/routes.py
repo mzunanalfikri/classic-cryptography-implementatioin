@@ -1,4 +1,5 @@
-from flask import request, render_template
+import io
+from flask import request, render_template, send_file
 
 from app import app
 from app.cipher import Playfair, SuperEnkripsi, Vigenere
@@ -68,6 +69,15 @@ def vigenere():
                 output = cipher.encrypt(input)
             elif form.decrypt.data:
                 output = cipher.decrypt(input)
+            # Return
+            if form.output_as_file.data:
+                return send_byte_as_file(bytes(map(ord, output)))
         return render_template('vigenere.html', form=form, output=output)
     else:
         return render_template('vigenere.html', form=form)
+
+
+def send_byte_as_file(bytes, outfile_name='data.out'):
+    return send_file(io.BytesIO(bytes), as_attachment=True,
+                     attachment_filename=outfile_name,
+                     mimetype='application/octet-stream')
