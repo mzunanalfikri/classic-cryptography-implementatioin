@@ -86,7 +86,7 @@ def super_enkripsi():
 def vigenere():
     form = VigenereForm()
     if request.method == 'POST':
-        output = ""
+        ct = ""
         if form.validate_on_submit():
             # Input processing
             pt = ""
