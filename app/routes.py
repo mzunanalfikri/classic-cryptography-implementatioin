@@ -43,7 +43,7 @@ def affine():
 def enigma():
     form = EnigmaForm()
     if request.method == 'POST':
-        output = "default"
+        output = ""
         if form.validate_on_submit():
             cipher = Enigma(form.key_1.data, form.key_2.data, form.key_3.data)
             # input process

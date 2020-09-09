@@ -1,7 +1,8 @@
 # Kriptografi-Tucil-1
 
 # Identitas
-...
+Muhammad Zunan Alfikri (13518019)\
+Naufal Dean Anugrah (13518123)
 
 # Python version
 `$ python --version`\
