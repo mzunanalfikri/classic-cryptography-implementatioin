@@ -35,6 +35,7 @@ class Enigma:
     def encrypt(self, pt):
         # Encryption path: ROTOR_III->ROTOR_II->ROTOR_I->REFLECTOR->ROTOR_I->ROTOR_II->ROTOR_III
         ct = ''
+        pt = ''.join(filter(str.isalpha, pt.upper())) 
         for cp in pt:
             imm_idx = self.CHARSET.index(cp)
             self.rotate()
@@ -54,7 +55,7 @@ class Enigma:
             l_inp_idx = (imm_idx + self.ROTOR_OFFSET_III) % 26
             imm_pair_idx = self.ROTOR_III.index(self.CHARSET[l_inp_idx])
             imm_idx = (imm_idx - self.ROTOR_SHIFT_III[imm_pair_idx]) % 26
-            print(self.CHARSET[imm_idx])
+            # print(self.CHARSET[imm_idx])
             # add new cp
             ct += self.CHARSET[imm_idx]
         return ct

@@ -2,8 +2,8 @@ import io
 from flask import request, render_template, send_file
 
 from app import app
-from app.cipher import Playfair, SuperEnkripsi, Vigenere, Affine, Hill
-from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm, AffineForm, HillForm
+from app.cipher import Playfair, SuperEnkripsi, Vigenere, Affine, Hill, Enigma
+from app.forms import PlayfairForm, SuperEnkripsiForm, VigenereForm, AffineForm, HillForm, EnigmaForm
 
 
 @app.route('/', methods=['GET'])
@@ -38,6 +38,30 @@ def affine():
         return render_template('affine.html', form=form, output = output)
     else:
         return render_template('affine.html', form=form)
+
+@app.route('/enigma', methods=['GET', 'POST'])
+def enigma():
+    form = EnigmaForm()
+    if request.method == 'POST':
+        output = "default"
+        if form.validate_on_submit():
+            cipher = Enigma(form.key_1.data, form.key_2.data, form.key_3.data)
+            # input process
+            pt = ""
+            if form.input_text.data:
+                pt = form.input_text.data
+            elif form.input_file.has_file():
+                pt = ''.join(map(chr, form.input_file.data.read()))
+            # encryption process
+            if form.encrypt.data:
+                output = cipher.encrypt(pt)
+            elif form.decrypt.data:
+                output = cipher.decrypt(pt)
+            if form.output_as_file.data:
+                return send_byte_as_file(bytes(map(ord, output)), outfile_name='enigma.txt')
+        return render_template('enigma.html', form=form, output=output)
+    else:
+        return render_template('enigma.html', form=form)
 
 @app.route('/hill', methods=['GET', 'POST'])
 def hill():
