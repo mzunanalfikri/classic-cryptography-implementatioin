@@ -47,6 +47,7 @@ class Hill:
             return (temp[:-2])
         elif (temp[-1:] == "X"):
             return (temp[:-1])
+        return temp
 
 if __name__ == "__main__":
     mat = [[17,17,5],[21,18,21],[2,2,19]]
