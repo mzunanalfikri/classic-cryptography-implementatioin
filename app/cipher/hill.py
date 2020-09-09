@@ -4,12 +4,14 @@ from sympy import Matrix
 class Hill:
     def __init__(self, matrixKey):
         self.key = np.mod(np.array(matrixKey), 26)
-        # check determinan first
+        # cek determinan valid atau tidak
         if (np.linalg.det(self.key) == 0):
             print(np.linalg.det(self.key))
             raise Exception("Matrix key invalid")
         self.inversKey = np.array(Matrix(self.key).inv_mod(26).tolist())
 
+
+    #fungsi untuk menghasilkan trigram
     def _generate_trigram(self, text):
         text = text.upper()
         if (len(text)%3 == 1):
@@ -22,6 +24,7 @@ class Hill:
             trigram.append(np.array([[ord(text[i]) % 65], [ord(text[i+1])%65], [ord(text[i+2])%65 ]]))
         return trigram
 
+    # fungsi untuk perkalian cot matrix
     def _dot_helper(self, text, matrix):
         trigram = self._generate_trigram(text)
         result = ""
@@ -33,7 +36,8 @@ class Hill:
         return(result)
 
     def encrypt(self, plainText):
-        plainText = ''.join(filter(str.isalpha, plainText.upper())) #filter alphanumeric only
+        #filter alphanumeric
+        plainText = ''.join(filter(str.isalpha, plainText.upper())) 
         return(self._dot_helper(plainText, self.key))
 
     def decrypt(self, ciphetText):

@@ -6,7 +6,8 @@ class Playfair:
         self.key = key.upper().replace(" ", "")
         self.asciiToIndexMap = self._generate_matrix(False)
         self.indexToAsciiMap = self._generate_matrix(True)
-
+    
+    #fungsi untuk menghasilkan matrix 5x5
     def _generate_matrix(self, isIndexToAscii):
         matrix = []
         ASCII_EXCEPT_J = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
@@ -28,6 +29,7 @@ class Playfair:
 
         return matrix_map
 
+    # fungsi untuk menghasilkan bigram
     def _generate_bigram(self, plainTeks):
         array_pt = list(plainTeks.upper().replace(" ", "").replace("J", "I"))
 
@@ -46,6 +48,7 @@ class Playfair:
 
         return bigram
 
+    # fungsi untuk enkripsi
     def encrypt(self, plainTeks):
         bigram = self._generate_bigram(plainTeks)
         result = []
@@ -63,6 +66,7 @@ class Playfair:
                 result.append(self.indexToAsciiMap[(p2[0],p1[1])])
         return("".join(result))
 
+    #fungsi untuk dekripsi
     def decrypt(self, cipherTeks):
         if (len(cipherTeks) % 2 == 1):
             raise Exception("Cipher text invalid.")

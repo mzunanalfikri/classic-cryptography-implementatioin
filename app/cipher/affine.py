@@ -1,13 +1,12 @@
-
-
 class Affine:
     def __init__(self, m, b):
         relative_prime = [1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25]
         if (m not in relative_prime):
             raise Exception("m invalid.")
-        self.m = m #bilangan bulat yang relatif dengan 26
-        self.b = b%26 #pergeseran
+        self.m = m      # bilangan bulat yang relatif dengan 26
+        self.b = b%26   #pergeseran
     
+    # fungsi enkripsi
     def encrypt(self, plainText):
         plainText = ''.join(filter(str.isalpha, plainText.upper())) #filter alphanumeric only
         result = []
@@ -15,6 +14,7 @@ class Affine:
             result.append(chr((self.m * (ord(alphabet)%65) + self.b)%26+65))
         return("".join(result))
 
+    # fungsi dekripsi
     def decrypt(self, cipherText):
         cipherText = cipherText.upper()
         result = []
@@ -22,6 +22,7 @@ class Affine:
             result.append(chr(self.modInverse26(self.m)*(ord(alphabet)%65 - self.b) % 26 + 65))
         return("".join(result))
 
+    # fungsi untuk inverse mod
     def modInverse26(self, a) : 
         m = 26
         a = a % m

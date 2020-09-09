@@ -1,17 +1,18 @@
 from . import vigenere 
 class SuperEnkripsi:
-
     def __init__(self, key):
         self.vigenereKey = key
         temp = 0
         for _ in key:
             temp += ord(_)
-        self.transKey = temp % 3 + 2 #kemungkinan key 2,3,4
+        self.transKey = temp % 4 + 2 #kemungkinan key 2,3,4, 5
         self.vigenereCipher = vigenere.Vigenere(self.vigenereKey)
 
+    # algoritma untuk enkrisi
     def encrypt(self, plainText):
         plainText2 = self.vigenereCipher.encrypt(plainText)
-        plainText2 = ''.join(filter(str.isalpha, plainText2.upper())) #filter alphanumeric only
+        #filter alphanumeric
+        plainText2 = ''.join(filter(str.isalpha, plainText2.upper())) 
         #padding
         plainText2 = plainText2 + ("_"*((self.transKey - (len(plainText2) % self.transKey))%self.transKey) )
         #make matrix
@@ -22,6 +23,7 @@ class SuperEnkripsi:
 
         return("".join(matrix))
 
+    # algoritma untuk dekripsi
     def decrypt(self, cipherText):
         matrix = ["" for i in range(len(cipherText)//self.transKey)]
         for i in range(len(cipherText)):
