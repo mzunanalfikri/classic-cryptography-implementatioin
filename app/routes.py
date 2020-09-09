@@ -34,7 +34,7 @@ def affine():
                 not_prime = True
                 return render_template('affine.html', form=form, not_prime = not_prime)
             if form.output_as_file.data:
-                return send_byte_as_file(bytes(map(ord, output)), outfile_name='vigenere.txt')
+                return send_byte_as_file(bytes(map(ord, output)), outfile_name='affine.txt')
         return render_template('affine.html', form=form, output = output)
     else:
         return render_template('affine.html', form=form)

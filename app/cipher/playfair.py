@@ -50,6 +50,7 @@ class Playfair:
 
     # fungsi untuk enkripsi
     def encrypt(self, plainTeks):
+        plainTeks = ''.join(filter(str.isalpha, plainTeks.upper())) 
         bigram = self._generate_bigram(plainTeks)
         result = []
         for el in bigram:
@@ -88,7 +89,7 @@ class Playfair:
             else:
                 result.append(self.indexToAsciiMap[(p1[0],p2[1])])
                 result.append(self.indexToAsciiMap[(p2[0],p1[1])])
-        return("".join(result))
+        return("".join(result).replace("X", ""))
 
 #untuk test
 if __name__ == "__main__":
