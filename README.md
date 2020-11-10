@@ -1,6 +1,7 @@
-# Kriptografi-Tucil-1
+# Classic Cryptography Implementation
+Implementatioin of playfair cipher, affine cipher, hill cipher, vigenere cipher, and enigma.
 
-# Identitas
+# Identity
 Muhammad Zunan Alfikri (13518019)\
 Naufal Dean Anugrah (13518123)
 
